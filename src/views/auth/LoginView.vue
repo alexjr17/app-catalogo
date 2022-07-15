@@ -5,12 +5,12 @@
             <form @submit.prevent="submitLogin()" class="flex flex-col gap-3">
                 <div class="flex flex-col">
                     <label>Usuario</label>
-                    <input type="text" class="rounded-md px-2" v-model="login.user"/>
+                    <input type="text" class="rounded-md px-2" v-model="user.email"/>
                 </div>
 
                 <div class="flex flex-col">
                     <label>Contraseña</label>
-                    <input type="password" class="rounded-md" v-model="login.password"/>
+                    <input type="password" class="rounded-md" v-model="user.password"/>
                 </div>
                 <div class=" flex justify-center">
                     <Button class="bg-blue-600 p-1 rounded-lg">Enviar</Button>
@@ -30,16 +30,21 @@
 export default {
     data(){
         return {
-            login:{
-                user: '',
+            user:{
+                email: '',
                 password:''
             }
         }
     },
     methods:{
-        submitLogin(){
-            // alert('enviar formulario de login '+ JSON.stringify(this.login));
-            this.$router.push({name: 'panelAdmin'});
+        async submitLogin(){
+            try {
+                await this.$store.dispatch('login', this.user);
+                this.$router.push({name: 'panelAdmin'});
+                console.log('inicio sesion');
+            } catch (error) {
+                console.log(error);
+            }            
         }
     }
 }
