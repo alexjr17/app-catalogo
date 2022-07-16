@@ -48,7 +48,13 @@ export default createStore({
     marcas: {
       actions: {
         async all_marcas() {
+          // alert(JSON.stringify(pag));
           const {data} = await repository.all_marcas();
+          console.log(data);
+          return data;
+        },
+        async pag_marcas(_, pag) {
+          const {data} = await repository.pag_marcas(pag);
           console.log(data);
           return data;
         }

@@ -14,6 +14,7 @@
                 <tr>
                     <th>N</th>
                     <th>Marca</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>                
@@ -21,43 +22,49 @@
                     <td>{{ marca.id }}</td>
                     <td>{{ marca.name }}</td>
                     <td>
-                        <!-- <div>
-                            <router-link>
+                        <div>
                                 <button-component 
                                     value="Editar"/>
-                            </router-link>
                             <a href="#"> | Delete</a>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <paginate-component 
+            :last_page="marcas.last_page" 
+            :current_page="marcas.current_page"
+            @page="page_actual"/>
     </div>
 </template>
 
 <script>
 import ButtonComponent from '../../../components/ButtonComponent.vue'
+import PaginateComponent from '@/components/PaginateComponent.vue';
+
+
 export default {
     components:{
-        ButtonComponent
+        ButtonComponent,
+        PaginateComponent,
     },
     data() {
         return {
             marcas: []
         }
     },
-    mounted() {
-        this.all_marcas();
+    created() {
+        this.page_actual(1);
     },
     methods: {
-        async all_marcas() {
+        async page_actual(payload) {
+            alert(payload);
             try {
-                let marcas = await this.$store.dispatch('all_marcas');
-                this.marcas = marcas;
+                this.marcas = await this.$store.dispatch('pag_marcas', payload);
             } catch (error) {
                 console.log(error);
             }
-        }
-    },
+        },
+    }
 }
 </script>

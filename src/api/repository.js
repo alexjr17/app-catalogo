@@ -7,6 +7,7 @@ export default
         },
         login(params){
             return api.post('/login', params);
+
         },
         logout(){
             return api.post('/logout');
@@ -15,6 +16,9 @@ export default
             return api.get('api/user');
         },
         all_marcas() {
-            return api.get('api/marcas');
+            return api.get(`api/marcas`);
+        },
+        pag_marcas(pag) {
+            return api.get(`api/marcas?page=${pag}`);
         }
     }
