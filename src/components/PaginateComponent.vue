@@ -2,7 +2,7 @@
     <div class="flex flex-row grow justify-end">
             <button class="bg-white px-3 py-2 flex items-center rounded-l-lg" @click="prev()">prev</button>
             <div v-for="i in last_page" :key="i">
-                <button class="px-3 py-2 flex items-center"
+                <button class="px-3 py-2 flex items-center ho"
                     :class="current_page == i ?'bg-blue-500' : 'bg-white'"
                     @click="page_actual(i)">
                     {{i}}

@@ -6,7 +6,7 @@
                 <div>
                     <label-component value="Marca"/>
                     <input-component 
-                        v-model="marca"
+                        v-model="marca.name"
                     />
                 </div>
             </template>
@@ -27,7 +27,9 @@ import ButtonComponent from '@/components/ButtonComponent.vue'
 export default {
     data() {
         return {
-            marca: ''
+            marca: {
+                name: ''
+            }
         }
     },
     components: {
@@ -37,8 +39,12 @@ export default {
         ButtonComponent
     },
     methods: {
-        submitCreate() {
-            alert('enviar formulario')
+        async submitCreate() {
+            try {
+                await this.$store.dispatch('store_marca', this.marca);
+            } catch (error) {
+                console.log(error);
+            }
         }
     },
 }

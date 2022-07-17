@@ -46,17 +46,42 @@ export default createStore({
       },
     },
     marcas: {
+      state(){
+        return{
+          marcas: []
+        }
+      },
+      getters:{
+        marcas(state){
+          return state.marcas;
+        }
+      },
+      mutations:{
+        SET_MARCAS(state, payload){
+          state.marcas = payload;
+        }
+      },
       actions: {
-        async all_marcas() {
-          // alert(JSON.stringify(pag));
-          const {data} = await repository.all_marcas();
-          console.log(data);
-          return data;
-        },
-        async pag_marcas(_, pag) {
+        async pag_marcas({commit}, pag) {
           const {data} = await repository.pag_marcas(pag);
           console.log(data);
-          return data;
+          commit('SET_MARCAS',data);
+        },
+        async store_marca(_, params) {
+          const {data} = await repository.store_marca(params);
+          console.log(data);
+        },
+        async get_marca({commit}, id){
+          commit;
+          const {data} = await repository.get_marca(id);
+          console.log('data '+data);
+        },
+        update_marca(_, {params, id}) {
+          await repository.
+        },
+        async delete_marca(_, id) {
+          const {data} = await repository.delete_marca(id);
+          console.log(data);
         }
       }
     }

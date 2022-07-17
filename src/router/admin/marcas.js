@@ -11,5 +11,10 @@ export default [
         path:'marcas/crear',
         name: 'marcas.create',
         component: () => import('../../views/admin/marcas/CreateMarcasView.vue')
+    },
+    {
+        path: 'marcas/edit/:id',
+        name: 'marcas.edit',
+        component: () => import('../../views/admin/marcas/EditMarcasView.vue'),
     }
 ]
