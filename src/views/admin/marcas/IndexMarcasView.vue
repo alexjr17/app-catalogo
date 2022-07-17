@@ -50,7 +50,10 @@ export default {
     },
     data() {
         return {
-            marcas: []
+            marcas: [],
+            last_page: '',
+            current_page : ''
+
         }
     },
     created() {
@@ -58,9 +61,10 @@ export default {
     },
     methods: {
         async page_actual(payload) {
-            alert(payload);
             try {
                 this.marcas = await this.$store.dispatch('pag_marcas', payload);
+                // this.last_page = this.marcas.last_page;
+                // this.current_page = this.marcas.current_page;
             } catch (error) {
                 console.log(error);
             }
