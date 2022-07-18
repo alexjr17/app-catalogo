@@ -71,13 +71,15 @@ export default createStore({
           const {data} = await repository.store_marca(params);
           console.log(data);
         },
-        async get_marca({commit}, id){
-          commit;
+        async get_marca(_, id) {
           const {data} = await repository.get_marca(id);
-          console.log('data '+data);
+          console.log(data);
+          return data;
         },
-        update_marca(_, {params, id}) {
-          await repository.
+        async update_marca(_, params) {
+          alert('store '+JSON.stringify(params));
+          const {data} = await repository.update_marca(params);
+          console.log(data);
         },
         async delete_marca(_, id) {
           const {data} = await repository.delete_marca(id);

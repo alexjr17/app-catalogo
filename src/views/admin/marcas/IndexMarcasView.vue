@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col">
+    <div class="flex flex-col gap-y-3">
         <div>
             <router-link :to="{name:'marcas.create'}">
                 <button-component 
@@ -7,49 +7,59 @@
                     icon="fa-plus"/>                
             </router-link>
             Nueva marca
-        </div>       
-
-        <table class="">
-            <thead>
-                <tr>
-                    <th>N</th>
-                    <th>Marca</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>                
-                <tr v-for="marca in marcas.data" :key="marca">
-                    <td>{{ marca.id }}</td>
-                    <td>{{ marca.name }}</td>
-                    <td>
-                        <div>
-                            <router-link :to="{name: 'marcas.edit', params:  {id: marca.id }}">
+        </div>
+        <div >
+            <table-component
+                :items="items">
+                    <tr v-for="marca in marcas.data" :key="marca" class="px-1 py-1 pl-4">
+                        <td-component>
+                            {{ marca.id }}
+                        </td-component>
+                        <td-component>
+                            {{ marca.name }}
+                        </td-component>
+                        <td-component class="flex justify-center items-center">
+                                <router-link :to="{name: 'marcas.edit', params:  {id: marca.id }}">
+                                    <button-component 
+                                        value="Editar"
+                                        />
+                                </router-link> |
                                 <button-component 
-                                    value="Editar"
-                                    />
-                            </router-link>
-                            <a href="#" @click="delete_marca(marca.id)"> | Delete</a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <paginate-component 
+                                        value="Delete"
+                                        @click="delete_marca(marca.id)"
+                                        />
+                        </td-component>
+                    </tr>
+            </table-component>
+        </div>     
+        <div>
+            <paginate-component 
             :last_page="marcas.last_page" 
             :current_page="marcas.current_page"
             @page="page_actual"/>
+        </div>
+        
     </div>
 </template>
 
 <script>
 import ButtonComponent from '../../../components/ButtonComponent.vue'
 import PaginateComponent from '@/components/PaginateComponent.vue';
+import TableComponent from '@/components/TableComponent.vue';
+import tdComponent from '@/components/table/tdComponent.vue'
 import { mapGetters } from 'vuex';
 
 export default {
     components:{
         ButtonComponent,
         PaginateComponent,
+        TableComponent,
+        tdComponent
+    },
+    data(){
+        return {
+            items: ['N', 'Marca', '']
+        }
     },
     computed: {
         ...mapGetters({
@@ -67,17 +77,10 @@ export default {
                 console.log(error);
             }
         },
-        // async edit_marca(id_marca){
-        //     try {
-        //         await this.$router.push({name: 'marcas.edit', params:  {id: id_marca }});
-        //     }catch (error) {
-        //         console.log(error);
-        //     }
-        // },
         async delete_marca(id) {
             try {
                 await this.$store.dispatch('delete_marca', id);
-                this.page_actual();
+                this.page_actual(this.marcas.current_page);
             } catch (error) {
                 console.log(error);
             }

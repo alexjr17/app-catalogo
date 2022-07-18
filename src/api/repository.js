@@ -27,8 +27,9 @@ export default
         get_marca(id){
             return api.get(`api/marcas/${id}/edit`);
         },
-        update_marca(id, params) {
-            return api.put(`api/marcas/${id}`, params);
+        update_marca(params){
+            alert('repository '+JSON.stringify(params));
+            return api.put(`api/marcas/${params.id}`, params);
         },
         delete_marca(id) {
             return api.delete(`api/marcas/${id}`);
