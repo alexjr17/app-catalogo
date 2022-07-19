@@ -15,9 +15,11 @@ export default
         get_user() {
             return api.get('api/user');
         },
-        // all_marcas() {
-        //     return api.get(`api/marcas`);
-        // },
+        
+        // -------
+        // marcas
+        // -------
+
         pag_marcas(pag) {
             return api.get(`api/marcas?page=${pag}`);
         },
@@ -33,5 +35,29 @@ export default
         },
         delete_marca(id) {
             return api.delete(`api/marcas/${id}`);
+        },
+        get_marcas() {
+            return api.get('api/marcas/get_marcas');
+        },
+
+        // ----------
+        // productos
+        // ----------
+
+        pag_productos(pag) {
+            return api.get(`api/productos?page=${pag}`);
+        },
+        store_producto(params){
+            return api.post('api/productos', params);
+        },
+        get_producto(id){
+            return api.get(`api/productos/${id}/edit`);
+        },
+        update_producto(params){
+            // alert('repository '+JSON.stringify(params));
+            return api.put(`api/productos/${params.id}`, params);
+        },
+        delete_producto(id) {
+            return api.delete(`api/productos/${id}`);
         },
     }

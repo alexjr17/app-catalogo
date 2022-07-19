@@ -72,7 +72,7 @@ export default {
     methods: {
         async page_actual(payload) {
             try {
-                this.marcas = await this.$store.dispatch('pag_marcas', payload);
+                await this.$store.dispatch('pag_marcas', payload);
             } catch (error) {
                 console.log(error);
             }

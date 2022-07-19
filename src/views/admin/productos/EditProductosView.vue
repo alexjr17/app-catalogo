@@ -1,7 +1,7 @@
 <template>
     <h1 class="p-4 shadow">Crear Producto</h1>
     <div class="shadow p-3">
-        <form-component @onSubmit="submitCreate">
+        <form-component @onSubmit="submitUpdate">
             <template #form>
                 <div>
                     <label-component 
@@ -88,19 +88,27 @@ export default {
         }
     },
     created() {
-        this.get_marcas();
+        this.get_marcas();        
     },
     methods: {
         async get_marcas() {
             try {
                 this.marcas = await this.$store.dispatch('get_marcas');
+                this.get_producto();
             } catch (error) {
                 console.log(error);
             }
         },
-        async submitCreate() {
+        async get_producto() {
             try {
-                await this.$store.dispatch('store_producto', this.producto);
+                this.producto = await this.$store.dispatch('get_producto', this.$route.params['id']);
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async submitUpdate() {
+            try {
+                await this.$store.dispatch('update_producto', this.producto);
             } catch (error) {
                 console.log(error);
             }

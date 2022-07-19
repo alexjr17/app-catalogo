@@ -45,7 +45,7 @@ export default {
         HeaderAdminLayout
     },
     mounted() {
-        this.$router.push({name: 'marcas.index'});
+        this.$router.push({name: 'productos.index'});
     },
     props:{
         navSlider:{

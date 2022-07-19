@@ -84,8 +84,55 @@ export default createStore({
         async delete_marca(_, id) {
           const {data} = await repository.delete_marca(id);
           console.log(data);
+        },
+        async get_marcas() {
+          const {data} = await repository.get_marcas();
+          return data;
         }
       }
-    }
+    },
+    productos: {
+      state(){
+        return{
+          productos: []
+        }
+      },
+      getters:{
+        productos(state){
+          return state.productos;
+        }
+      },
+      mutations:{
+        SET_PRODUCTOS(state, payload){
+          state.productos = payload;
+        }
+      },
+      actions: {
+        async pag_productos({commit}, pag) {
+          const {data} = await repository.pag_productos(pag);
+          console.log(data);
+          commit('SET_PRODUCTOS',data);
+        },
+        async store_producto(_, params) {
+          console.log(params);
+          const {data} = await repository.store_producto(params);
+          console.log(data);
+        },
+        async get_producto(_, id) {
+          const {data} = await repository.get_producto(id);
+          console.log(data);
+          return data;
+        },
+        async update_producto(_, params) {
+          alert('store '+JSON.stringify(params));
+          const {data} = await repository.update_producto(params);
+          console.log(data);
+        },
+        async delete_producto(_, id) {
+          const {data} = await repository.delete_producto(id);
+          console.log(data);
+        }
+      }
+    },
   }
 })
