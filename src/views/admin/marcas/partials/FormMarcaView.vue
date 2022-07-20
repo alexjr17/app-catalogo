@@ -1,5 +1,5 @@
-<!-- <template>
-       <FormComponent @onSubmit="submitUpdate">
+<template>
+    <FormComponent @onSubmit="$emit('onSubmit', this.marca)">
             <template #form>
                 <div>
                     <label-component value="Marca"/>
@@ -10,8 +10,10 @@
             </template>
             <template #actions>
                 <button-component 
-                    value="name_button"
+                    :value="name_button"
                     type="submit" />
+                <slot name="cancelar" v-if="hasActions">
+                </slot>                
             </template>
         </FormComponent>
 </template>
@@ -28,29 +30,32 @@ export default {
         LabelComponent,
         ButtonComponent
     },
+    props:{
+        name_button: {
+            type: String,
+            required: true
+        },
+        get_marca:{
+            required: false,
+            default: ''
+        }
+    },
+    created() {
+        if(this.get_marca) {
+            this.marca = this.get_marca;
+        }
+    },
     data() {
         return {
-            marca: {}
-        }
-    },
-    mounted() {
-        this.get_marca();
-    },
-    methods: {
-        async get_marca() {
-            try {
-                this.marca = await this.$store.dispatch('get_marca', this.$route.params['id']);
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        async submitUpdate() {
-            try {
-                await this.$store.dispatch('update_marca', this.marca);
-            } catch (error) {
-                console.log(error);
+            marca: {
+                name: ''
             }
         }
     },
+    computed: {
+        hasActions(){
+            return !! this.$slots.cancelar;
+        }
+    }
 }
-</script> -->
+</script>

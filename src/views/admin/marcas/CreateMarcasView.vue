@@ -1,47 +1,24 @@
 <template>
     <h1 class="p-4 shadow">Crear Marca</h1>
     <div class="p-4 shadow">
-       <FormComponent @onSubmit="submitCreate">
-            <template #form>
-                <div>
-                    <label-component value="Marca"/>
-                    <input-component 
-                        v-model="marca.name"
-                    />
-                </div>
-            </template>
-            <template #actions>
-                <button-component 
-                    value="Guardar"
-                    type="submit" />
-            </template>
-        </FormComponent>
+       <FormMarca 
+        @onSubmit = "submitCreate"
+        name_button = "Crear"
+        ></FormMarca>
     </div>
 </template>
 
 <script>
-import FormComponent from '@/components/FormComponent.vue'
-import InputComponent from '@/components/forms/InputComponent.vue'
-import LabelComponent from '@/components/forms/LabelComponent.vue'
-import ButtonComponent from '@/components/ButtonComponent.vue'
+import FormMarca from './partials/FormMarcaView.vue';
 export default {
-    data() {
-        return {
-            marca: {
-                name: ''
-            }
-        }
-    },
-    components: {
-        FormComponent,
-        InputComponent,
-        LabelComponent,
-        ButtonComponent
+    components:{
+        FormMarca
     },
     methods: {
-        async submitCreate() {
+        async submitCreate(payload) {
             try {
-                await this.$store.dispatch('store_marca', this.marca);
+                await this.$store.dispatch('store_marca', payload);
+                this.$router.push({name: 'marcas.index'});
             } catch (error) {
                 console.log(error);
             }

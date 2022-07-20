@@ -77,7 +77,6 @@ export default createStore({
           return data;
         },
         async update_marca(_, params) {
-          alert('store '+JSON.stringify(params));
           const {data} = await repository.update_marca(params);
           console.log(data);
         },

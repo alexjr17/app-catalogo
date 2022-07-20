@@ -25,7 +25,7 @@
                             {{ producto.observations }}
                         </td-component>
                         <td-component>
-                            {{ producto.marca['name'] }}
+                            {{ producto.marca ? producto.marca['name'] : ''}}
                         </td-component>
                         <td-component>
                             {{ producto.inventory }}

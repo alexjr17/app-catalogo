@@ -30,7 +30,6 @@ export default
             return api.get(`api/marcas/${id}/edit`);
         },
         update_marca(params){
-            alert('repository '+JSON.stringify(params));
             return api.put(`api/marcas/${params.id}`, params);
         },
         delete_marca(id) {

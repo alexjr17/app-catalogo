@@ -5,8 +5,8 @@
 
 <script>
 export default{
-    // mounted(){
-    //   this.$router.push({name: 'panelAdmin'});
-    // }
+    mounted(){
+      this.$router.push({name: 'login'});
+    }
 }
 </script>

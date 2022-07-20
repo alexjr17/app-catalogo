@@ -19,11 +19,12 @@
                             {{ marca.name }}
                         </td-component>
                         <td-component class="flex justify-center items-center">
-                                <router-link :to="{name: 'marcas.edit', params:  {id: marca.id }}">
+                                <!-- <router-link :to="{name: 'marcas.edit', params:  {id: marca.id }}"> -->
                                     <button-component 
+                                    @click="get_marca(marca)"
                                         value="Editar"
                                         />
-                                </router-link> |
+                                <!-- </router-link> | -->
                                 <button-component 
                                         value="Delete"
                                         @click="delete_marca(marca.id)"
@@ -38,7 +39,23 @@
             :current_page="marcas.current_page"
             @page="page_actual"/>
         </div>
-        
+        <modal-component :show="showModal" @close="showModal = !showModal">
+            <template #header>
+                <h3>Editar Marca</h3>
+            </template>
+            <template #body>
+                <form-marca-view
+                    name_button="Actualizar"
+                    :get_marca="this.marca"
+                    @onSubmit="submitUpdate">
+                    <template #cancelar>
+                        <button-component 
+                            value="Cancelar"
+                            @click="showModal = !showModal"/>
+                    </template>
+                </form-marca-view>
+            </template>
+        </modal-component>
     </div>
 </template>
 
@@ -47,6 +64,8 @@ import ButtonComponent from '../../../components/ButtonComponent.vue'
 import PaginateComponent from '@/components/PaginateComponent.vue';
 import TableComponent from '@/components/TableComponent.vue';
 import tdComponent from '@/components/table/tdComponent.vue'
+import ModalComponent from '@/components/ModalComponent.vue'
+import FormMarcaView from './partials/FormMarcaView.vue';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -54,11 +73,15 @@ export default {
         ButtonComponent,
         PaginateComponent,
         TableComponent,
-        tdComponent
+        tdComponent,
+        ModalComponent,
+        FormMarcaView
     },
     data(){
         return {
-            items: ['N', 'Marca', '']
+            items: ['N', 'Marca', ''],
+            showModal: false,
+            marca: []
         }
     },
     computed: {
@@ -73,6 +96,24 @@ export default {
         async page_actual(payload) {
             try {
                 await this.$store.dispatch('pag_marcas', payload);
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async get_marca(marca) {
+            this.showModal = !this.showModal;
+            this.marca = marca;
+            // alert(id);
+            // try {
+            //     this.marca = await this.$store.dispatch('get_marca', id);
+            // } catch (error) {
+            //     console.log(error);
+            // }
+        },
+        async submitUpdate(payload) {
+            try {
+                await this.$store.dispatch('update_marca', payload);
+                this.showModal = !this.showModal;
             } catch (error) {
                 console.log(error);
             }
