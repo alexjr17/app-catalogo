@@ -123,7 +123,6 @@ export default createStore({
           return data;
         },
         async update_producto(_, params) {
-          alert('store '+JSON.stringify(params));
           const {data} = await repository.update_producto(params);
           console.log(data);
         },

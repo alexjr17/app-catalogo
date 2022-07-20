@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <h1 class="p-4 shadow">Crear Producto</h1>
     <div class="shadow p-3">
         <form-component @onSubmit="submitUpdate">
@@ -115,4 +115,4 @@ export default {
         }
     },
 }
-</script>
+</script> -->

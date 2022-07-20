@@ -34,11 +34,11 @@
                             {{ producto.date }}
                         </td-component>
                         <td-component class="flex justify-center items-center">
-                                <router-link :to="{name: 'productos.edit', params:  {id: producto.id }}">
-                                    <button-component 
-                                        value="Editar"
-                                        />
-                                </router-link> |
+                                <button-component 
+                                    value="Editar"
+                                    @click="get_producto(producto)"
+                                    />
+                                |
                                 <button-component 
                                         value="Delete"
                                         @click="delete_producto(producto.id)"
@@ -53,6 +53,26 @@
             :current_page="productos.current_page"
             @page="page_actual"/>
         </div>
+    <modal-component :show="showModal" >
+
+        <template #header>
+            <h3>Editar Producto</h3>
+        </template>
+
+        <template #body>
+            <form-producto-view
+                name_button="Actualizar"
+                :get_producto="this.producto"
+                @onSubmit="submitUpdate">
+                <template #cancelar>
+                    <button-component 
+                        value="Cancelar"
+                        @click="showModal = !showModal"/>
+                </template>
+            </form-producto-view>
+        </template>
+
+    </modal-component>
     </div>
 </template>
 
@@ -61,6 +81,8 @@ import ButtonComponent from '../../../components/ButtonComponent.vue'
 import PaginateComponent from '@/components/PaginateComponent.vue';
 import TableComponent from '@/components/TableComponent.vue';
 import tdComponent from '@/components/table/tdComponent.vue'
+import ModalComponent from '@/components/ModalComponent.vue';
+import FormProductoView from './partials/FormProductoView.vue';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -68,11 +90,15 @@ export default {
         ButtonComponent,
         PaginateComponent,
         TableComponent,
-        tdComponent
+        tdComponent,
+        ModalComponent,
+        FormProductoView
     },
     data(){
         return {
             items: ['N', 'Nombre', 'Talla', 'Observaciones', 'Marca', 'Inventario', 'Embarque', ''],
+            showModal: false,
+            producto: []
         }
     },
     computed: {
@@ -87,6 +113,24 @@ export default {
         async page_actual(payload) {
             try {
                 await this.$store.dispatch('pag_productos', payload);
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async get_producto(producto) {
+            this.showModal = ! this.showModal;
+            this.producto = producto;            
+            // try {
+            //     this.producto = await this.$store.dispatch('get_producto', id);
+            // } catch (error) {
+            //     console.log(error);
+            // }
+        },
+        async submitUpdate(payload) {
+            try {
+                await this.$store.dispatch('update_producto', payload);
+                this.page_actual(this.productos.current_page);
+                this.showModal = ! this.showModal;
             } catch (error) {
                 console.log(error);
             }

@@ -12,14 +12,15 @@
                 <button-component 
                     :value="name_button"
                     type="submit" />
-                <slot name="cancelar" v-if="hasActions">
+                <slot name="cancelar" v-if="hasCancelar">
                 </slot>                
             </template>
         </FormComponent>
+        {{marca}}
 </template>
 
 <script>
-import FormComponent from '@/components/FormComponent.vue'
+import FormComponent from '@/components/FormComponent.vue';
 import InputComponent from '@/components/forms/InputComponent.vue'
 import LabelComponent from '@/components/forms/LabelComponent.vue'
 import ButtonComponent from '@/components/ButtonComponent.vue'
@@ -40,6 +41,11 @@ export default {
             default: ''
         }
     },
+    // watch: {
+    //     get_marca: function () {
+    //         this.marca = this.get_marca;
+    //     },
+    // },
     created() {
         if(this.get_marca) {
             this.marca = this.get_marca;
@@ -53,7 +59,7 @@ export default {
         }
     },
     computed: {
-        hasActions(){
+        hasCancelar(){
             return !! this.$slots.cancelar;
         }
     }
