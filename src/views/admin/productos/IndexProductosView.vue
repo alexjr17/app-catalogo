@@ -53,26 +53,27 @@
             :current_page="productos.current_page"
             @page="page_actual"/>
         </div>
-    <modal-component :show="showModal" >
+        <modal-component :show="showModal" 
+            @close="showModal = !showModal">
 
-        <template #header>
-            <h3>Editar Producto</h3>
-        </template>
+            <template #header>
+                <h3>Editar Producto</h3>
+            </template>
 
-        <template #body>
-            <form-producto-view
-                name_button="Actualizar"
-                :get_producto="this.producto"
-                @onSubmit="submitUpdate">
-                <template #cancelar>
-                    <button-component 
-                        value="Cancelar"
-                        @click="showModal = !showModal"/>
-                </template>
-            </form-producto-view>
-        </template>
-
-    </modal-component>
+            <template #body>
+                <form-producto-view
+                    name_button="Actualizar"
+                    :get_producto="this.producto"
+                    @onSubmit="submitUpdate">
+                    <template #cancelar>
+                        <button-component 
+                            value="Cancelar"
+                            @click="showModal = !showModal"/>
+                    </template>
+                </form-producto-view>
+            </template>
+        </modal-component>
+        <ConfirmToastComponent/>
     </div>
 </template>
 
@@ -83,6 +84,7 @@ import TableComponent from '@/components/TableComponent.vue';
 import tdComponent from '@/components/table/tdComponent.vue'
 import ModalComponent from '@/components/ModalComponent.vue';
 import FormProductoView from './partials/FormProductoView.vue';
+import ConfirmToastComponent from '@/components/ConfirmToastComponent.vue';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -92,12 +94,14 @@ export default {
         TableComponent,
         tdComponent,
         ModalComponent,
-        FormProductoView
+        FormProductoView,
+        ConfirmToastComponent
     },
     data(){
         return {
             items: ['N', 'Nombre', 'Talla', 'Observaciones', 'Marca', 'Inventario', 'Embarque', ''],
             showModal: false,
+            showAlert: true,
             producto: []
         }
     },
@@ -136,11 +140,15 @@ export default {
             }
         },
         async delete_producto(id) {
-            try {
-                await this.$store.dispatch('delete_producto', id);
-                this.page_actual(this.productos.current_page);
-            } catch (error) {
-                console.log(error);
+            if(confirm('Desea eliminar?')){
+                try {
+                    await this.$store.dispatch('delete_producto', id);
+                    this.page_actual(this.productos.current_page);
+                } catch (error) {
+                    console.log(error);
+                }
+            } else {
+                alert('Cancelar Eliminacion');
             }
         }
     }

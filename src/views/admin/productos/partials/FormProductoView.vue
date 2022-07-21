@@ -57,7 +57,6 @@
             </div>
         </template>
     </form-component>
-    {{producto}}
 </template>
 
 <script>
@@ -95,11 +94,11 @@ export default {
             marcas: []
         }
     },
-    // watch: {
-    //     get_producto: function () {
-    //         this.producto= this.get_producto;
-    //     },
-    // },
+    watch: {
+        get_producto: function () {
+            this.producto= this.get_producto;
+        },
+    },
     computed: {
         hasCancelar(){
             return !! this.$slots.cancelar;

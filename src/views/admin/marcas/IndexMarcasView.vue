@@ -56,6 +56,7 @@
                 </form-marca-view>
             </template>
         </modal-component>
+        <ConfirmToastComponent></ConfirmToastComponent>
     </div>
 </template>
 
@@ -67,16 +68,18 @@ import tdComponent from '@/components/table/tdComponent.vue'
 import ModalComponent from '@/components/ModalComponent.vue'
 import FormMarcaView from './partials/FormMarcaView.vue';
 import { mapGetters } from 'vuex';
+import ConfirmToastComponent from '@/components/ConfirmToastComponent.vue';
 
 export default {
     components:{
-        ButtonComponent,
-        PaginateComponent,
-        TableComponent,
-        tdComponent,
-        ModalComponent,
-        FormMarcaView
-    },
+    ButtonComponent,
+    PaginateComponent,
+    TableComponent,
+    tdComponent,
+    ModalComponent,
+    FormMarcaView,
+    ConfirmToastComponent
+},
     data(){
         return {
             items: ['N', 'Marca', ''],
@@ -119,12 +122,16 @@ export default {
             }
         },
         async delete_marca(id) {
-            try {
-                await this.$store.dispatch('delete_marca', id);
-                this.page_actual(this.marcas.current_page);
-            } catch (error) {
-                console.log(error);
-            }
+            if(confirm('Desea eliminar este registro')){
+                try {
+                    await this.$store.dispatch('delete_marca', id);
+                    this.page_actual(this.marcas.current_page);
+                } catch (error) {
+                    console.log(error);
+                }
+            }else {
+                alert('Se cancelo eliminacion');
+            }        
         }
     }
 }

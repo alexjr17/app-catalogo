@@ -16,7 +16,6 @@
                 </slot>                
             </template>
         </FormComponent>
-        {{marca}}
 </template>
 
 <script>
@@ -41,11 +40,11 @@ export default {
             default: ''
         }
     },
-    // watch: {
-    //     get_marca: function () {
-    //         this.marca = this.get_marca;
-    //     },
-    // },
+    watch: {
+        get_marca: function () {
+            this.marca = this.get_marca;
+        },
+    },
     created() {
         if(this.get_marca) {
             this.marca = this.get_marca;
